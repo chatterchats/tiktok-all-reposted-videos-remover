@@ -2,7 +2,7 @@
 
 ## Overview
 
-TikTok All Reposted Videos Remover is a Chrome extension designed to help users automatically remove all reposted videos from their TikTok profile. We are committed to protecting your privacy and ensuring that no personal data is ever collected, stored, or shared.
+TikTok All Reposted Videos Remover is a browser extension (Chrome and Firefox) designed to help users automatically remove all reposted videos from their TikTok profile. We are committed to protecting your privacy and ensuring that no personal data is ever collected, stored, or shared.
 
 ---
 
@@ -42,7 +42,7 @@ This extension does **not** use any third-party analytics, tracking scripts, or 
 
 ## Permissions Explanation
 
-The extension uses the following Chrome permissions:
+The extension uses the following permissions (compatible with both Chrome and Firefox):
 
 - **`host_permissions`** (`https://*.tiktok.com/*`): Required so the extension can run only on TikTok pages. No other domains are accessed.
 - **`scripting`**: Needed to inject and run the content script on TikTok pages and to read session data required to identify your account.

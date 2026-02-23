@@ -26,23 +26,33 @@ Remove all your reposted videos on TikTok automatically with a single action.
 
 ## Installation
 
-### From Chrome Web Store
+### Chrome
 
 [Install from Chrome Web Store](https://chromewebstore.google.com/detail/tiktok-all-reposted-video/amgpfdpibiacligkkkbeonfhmonkgjhg)
+
+### Firefox
+
+[Install from Firefox Add-ons(TBD)]()
 
 ### Manual installation (for developers)
 
 1. Clone this repository or download the source code.
-2. Go to `chrome://extensions` in Google Chrome.
+
+**For Chrome:**
+2. Go to `chrome://extensions`.
 3. Enable **Developer mode** (top right toggle).
 4. Click **"Load unpacked"** and select the project folder.
+
+**For Firefox:**
+2. Go to `about:debugging#/runtime/this-firefox`.
+3. Click **"Load Temporary Add-on"** and select the `manifest.json` file from the project folder.
 
 ---
 
 ## How to use
 
 1. Make sure you are logged in to your TikTok account at [tiktok.com](https://tiktok.com).
-2. Click the extension icon in the Chrome toolbar.
+2. Click the extension icon in your browser's toolbar.
 3. Configure options in the popup:
    - Whether to filter by keywords or remove all reposts
    - Interval mode (random range or fixed set of seconds between removals)
@@ -93,7 +103,7 @@ This makes it easy to audit what was removed and what failed, or to keep a backu
 
 ## Permissions
 
-The extension uses the following Chrome permissions:
+The extension uses the following permissions (compatible with both Chrome and Firefox):
 
 - `host_permissions` (`https://*.tiktok.com/*`): allows the extension to run only on TikTok pages.
 - `scripting`: injects and runs the content script on TikTok pages and reads session data needed to identify your account.
