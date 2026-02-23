@@ -332,11 +332,14 @@ document.addEventListener("DOMContentLoaded", function () {
     updateDualRangeDisplay();
   }
 
-  intervalMode.addEventListener("change", function () {
-    const isRange = this.value === "range";
+  function updateIntervalGroupsVisibility() {
+    const isRange = intervalMode.value === "range";
     intervalRangeGroup.style.display = isRange ? "flex" : "none";
     intervalSetGroup.style.display = isRange ? "none" : "flex";
-  });
+  }
+
+  intervalMode.addEventListener("change", updateIntervalGroupsVisibility);
+  updateIntervalGroupsVisibility();
 
   const loginButton = document.getElementById("loginButton");
   checkTiktokLogin().then((isLoggedIn) => {
