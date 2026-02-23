@@ -1,3 +1,5 @@
+const ext = globalThis.browser ?? globalThis.chrome;
+
 (function () {
   "use strict";
 
@@ -6,7 +8,7 @@
   /** Pede ao background o secUid (lido no mundo MAIN da página, sem script inline bloqueado pela CSP). */
   function getSecUidAsync() {
     return new Promise(function (resolve) {
-      chrome.runtime.sendMessage({ action: "getSecUid" }, function (response) {
+      ext.runtime.sendMessage({ action: "getSecUid" }, function (response) {
         resolve(response && response.secUid ? response.secUid : null);
       });
     });
@@ -489,7 +491,7 @@
   }
   }
 
-  chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  ext.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.action === "startRemovingReposts") {
       try {
         runRemoval(msg.config);

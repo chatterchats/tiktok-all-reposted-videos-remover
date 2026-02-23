@@ -1,3 +1,5 @@
+const ext = globalThis.browser ?? globalThis.chrome;
+
 function getSecUidInPage() {
   try {
     var w = window.__$UNIVERSAL_DATA$__;
@@ -10,14 +12,14 @@ function getSecUidInPage() {
   }
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+ext.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "getSecUid") {
     var tabId = sender.tab && sender.tab.id;
     if (!tabId) {
       sendResponse({ secUid: null });
       return true;
     }
-    chrome.scripting.executeScript(
+    ext.scripting.executeScript(
       { target: { tabId }, world: "MAIN", func: getSecUidInPage },
       function (results) {
         var secUid = (results && results[0] && results[0].result) || null;
@@ -29,20 +31,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   if (request.action === "startRemovingReposts") {
     const config = request.payload?.config || {};
-    chrome.tabs.create({ url: "https://www.tiktok.com/profile", active: true }, (tab) => {
+    ext.tabs.create({ url: "https://www.tiktok.com/profile", active: true }, (tab) => {
       const tabId = tab.id;
       const listener = (id, info) => {
         if (id === tabId && info.status === "complete") {
-          chrome.tabs.onUpdated.removeListener(listener);
+          ext.tabs.onUpdated.removeListener(listener);
           setTimeout(() => {
-            chrome.tabs.get(tabId, (tabInfo) => {
+            ext.tabs.get(tabId, (tabInfo) => {
               const url = (tabInfo && tabInfo.url) || "";
               const isForyou = /\/foryou(\?|$)/i.test(url);
               const isLogin = /\/login(\?|$|\/)/i.test(url);
               const notLoggedInRedirect = isForyou || isLogin;
               const payload = { ...config, notLoggedInRedirect };
               function sendConfig(attempt) {
-                chrome.tabs.sendMessage(tabId, { action: "startRemovingReposts", config: payload })
+                ext.tabs.sendMessage(tabId, { action: "startRemovingReposts", config: payload })
                   .catch((e) => {
                     if (attempt < 3) setTimeout(() => sendConfig(attempt + 1), 800);
                   });
@@ -52,7 +54,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           }, 4000);
         }
       };
-      chrome.tabs.onUpdated.addListener(listener);
+      ext.tabs.onUpdated.addListener(listener);
     });
     sendResponse({ ok: true });
   }

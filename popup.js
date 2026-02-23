@@ -1,236 +1,15 @@
-// Mapeamento de países para códigos de moeda do PayPal
-const COUNTRY_CURRENCY_MAP = {
-  US: "USD",
-  CA: "CAD",
-  GB: "GBP",
-  DE: "EUR",
-  FR: "EUR",
-  IT: "EUR",
-  ES: "EUR",
-  NL: "EUR",
-  AU: "AUD",
-  JP: "JPY",
-  BR: "BRL",
-  MX: "MXN",
-  AR: "ARS",
-  CL: "CLP",
-  CO: "COP",
-  PE: "PEN",
-  UY: "UYU",
-  PY: "PYG",
-  BO: "BOB",
-  EC: "USD",
-  VE: "VES",
-  CR: "CRC",
-  PA: "PAB",
-  GT: "GTQ",
-  HN: "HNL",
-  SV: "USD",
-  NI: "NIO",
-  DO: "DOP",
-  CU: "CUP",
-  HT: "HTG",
-  JM: "JMD",
-  BS: "BSD",
-  BB: "BBD",
-  TT: "TTD",
-  GY: "GYD",
-  SR: "SRD",
-  FK: "FKP",
-  CH: "CHF",
-  NO: "NOK",
-  SE: "SEK",
-  DK: "DKK",
-  FI: "EUR",
-  IE: "EUR",
-  AT: "EUR",
-  BE: "EUR",
-  LU: "EUR",
-  PT: "EUR",
-  GR: "EUR",
-  CY: "EUR",
-  MT: "EUR",
-  SK: "EUR",
-  SI: "EUR",
-  EE: "EUR",
-  LV: "EUR",
-  LT: "EUR",
-  PL: "PLN",
-  CZ: "CZK",
-  HU: "HUF",
-  RO: "RON",
-  BG: "BGN",
-  HR: "EUR",
-  RS: "RSD",
-  BA: "BAM",
-  MK: "MKD",
-  AL: "ALL",
-  ME: "EUR",
-  XK: "EUR",
-  MD: "MDL",
-  UA: "UAH",
-  BY: "BYN",
-  RU: "RUB",
-  KZ: "KZT",
-  UZ: "UZS",
-  TJ: "TJS",
-  KG: "KGS",
-  TM: "TMT",
-  AF: "AFN",
-  PK: "PKR",
-  IN: "INR",
-  LK: "LKR",
-  BD: "BDT",
-  NP: "NPR",
-  BT: "BTN",
-  MV: "MVR",
-  CN: "CNY",
-  HK: "HKD",
-  MO: "MOP",
-  TW: "TWD",
-  KR: "KRW",
-  KP: "KPW",
-  MN: "MNT",
-  MM: "MMK",
-  TH: "THB",
-  LA: "LAK",
-  KH: "KHR",
-  VN: "VND",
-  MY: "MYR",
-  SG: "SGD",
-  BN: "BND",
-  ID: "IDR",
-  PH: "PHP",
-  TL: "USD",
-  PG: "PGK",
-  SB: "SBD",
-  VU: "VUV",
-  FJ: "FJD",
-  NC: "XPF",
-  PF: "XPF",
-  WS: "WST",
-  TO: "TOP",
-  KI: "AUD",
-  TV: "AUD",
-  NR: "AUD",
-  MH: "USD",
-  FM: "USD",
-  PW: "USD",
-  AS: "USD",
-  GU: "USD",
-  MP: "USD",
-  PR: "USD",
-  VI: "USD",
-  UM: "USD",
-  NZ: "NZD",
-  CK: "NZD",
-  NU: "NZD",
-  PN: "NZD",
-  TK: "NZD",
-};
+import { COUNTRY_CURRENCY_MAP, TIMEZONE_COUNTRY_MAP, LOCALE_COUNTRY_MAP, LANGUAGE_COUNTRY_MAP } from "./maps.js";
+
+const ext = globalThis.browser ?? globalThis.chrome;
 
 // Função para detectar o país do usuário usando apenas recursos do navegador
 function detectUserCountry() {
   try {
     // Método 1: Usar timezone do navegador (mais preciso)
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const timezoneCountryMap = {
-      // Americas
-      "America/Sao_Paulo": "BR",
-      "America/Argentina/Buenos_Aires": "AR",
-      "America/Santiago": "CL",
-      "America/Bogota": "CO",
-      "America/Lima": "PE",
-      "America/Montevideo": "UY",
-      "America/Asuncion": "PY",
-      "America/La_Paz": "BO",
-      "America/Guayaquil": "EC",
-      "America/Caracas": "VE",
-      "America/Costa_Rica": "CR",
-      "America/Panama": "PA",
-      "America/Guatemala": "GT",
-      "America/Tegucigalpa": "HN",
-      "America/El_Salvador": "SV",
-      "America/Managua": "NI",
-      "America/Santo_Domingo": "DO",
-      "America/Havana": "CU",
-      "America/Port-au-Prince": "HT",
-      "America/Jamaica": "JM",
-      "America/New_York": "US",
-      "America/Chicago": "US",
-      "America/Denver": "US",
-      "America/Los_Angeles": "US",
-      "America/Anchorage": "US",
-      "America/Toronto": "CA",
-      "America/Vancouver": "CA",
-      "America/Mexico_City": "MX",
-
-      // Europe
-      "Europe/London": "GB",
-      "Europe/Dublin": "IE",
-      "Europe/Paris": "FR",
-      "Europe/Berlin": "DE",
-      "Europe/Madrid": "ES",
-      "Europe/Rome": "IT",
-      "Europe/Amsterdam": "NL",
-      "Europe/Brussels": "BE",
-      "Europe/Zurich": "CH",
-      "Europe/Vienna": "AT",
-      "Europe/Stockholm": "SE",
-      "Europe/Oslo": "NO",
-      "Europe/Copenhagen": "DK",
-      "Europe/Helsinki": "FI",
-      "Europe/Warsaw": "PL",
-      "Europe/Prague": "CZ",
-      "Europe/Budapest": "HU",
-      "Europe/Bucharest": "RO",
-      "Europe/Sofia": "BG",
-      "Europe/Athens": "GR",
-      "Europe/Lisbon": "PT",
-      "Europe/Moscow": "RU",
-      "Europe/Kiev": "UA",
-
-      // Asia
-      "Asia/Tokyo": "JP",
-      "Asia/Seoul": "KR",
-      "Asia/Shanghai": "CN",
-      "Asia/Hong_Kong": "HK",
-      "Asia/Taipei": "TW",
-      "Asia/Singapore": "SG",
-      "Asia/Bangkok": "TH",
-      "Asia/Jakarta": "ID",
-      "Asia/Manila": "PH",
-      "Asia/Kuala_Lumpur": "MY",
-      "Asia/Ho_Chi_Minh": "VN",
-      "Asia/Kolkata": "IN",
-      "Asia/Karachi": "PK",
-      "Asia/Dhaka": "BD",
-      "Asia/Colombo": "LK",
-      "Asia/Dubai": "AE",
-      "Asia/Riyadh": "SA",
-      "Asia/Tehran": "IR",
-      "Asia/Baghdad": "IQ",
-      "Asia/Jerusalem": "IL",
-
-      // Oceania
-      "Australia/Sydney": "AU",
-      "Australia/Melbourne": "AU",
-      "Australia/Perth": "AU",
-      "Pacific/Auckland": "NZ",
-      "Pacific/Fiji": "FJ",
-
-      // Africa
-      "Africa/Cairo": "EG",
-      "Africa/Lagos": "NG",
-      "Africa/Johannesburg": "ZA",
-      "Africa/Casablanca": "MA",
-      "Africa/Algiers": "DZ",
-      "Africa/Tunis": "TN",
-      "Africa/Nairobi": "KE",
-    };
-
-    if (timezoneCountryMap[timezone]) {
-      return timezoneCountryMap[timezone];
+    
+    if (TIMEZONE_COUNTRY_MAP[timezone]) {
+      return TIMEZONE_COUNTRY_MAP[timezone];
     }
   } catch (error) {
     console.log("Erro ao detectar país via timezone:", error);
@@ -239,62 +18,10 @@ function detectUserCountry() {
   try {
     // Método 2: Usar o locale do navegador
     const locale = Intl.DateTimeFormat().resolvedOptions().locale;
-    const localeCountryMap = {
-      "pt-BR": "BR",
-      "en-US": "US",
-      "en-GB": "GB",
-      "en-CA": "CA",
-      "en-AU": "AU",
-      "fr-FR": "FR",
-      "fr-CA": "CA",
-      "de-DE": "DE",
-      "de-AT": "AT",
-      "de-CH": "CH",
-      "es-ES": "ES",
-      "es-MX": "MX",
-      "es-AR": "AR",
-      "es-CL": "CL",
-      "es-CO": "CO",
-      "es-PE": "PE",
-      "it-IT": "IT",
-      "it-CH": "CH",
-      "ja-JP": "JP",
-      "ko-KR": "KR",
-      "zh-CN": "CN",
-      "zh-TW": "TW",
-      "zh-HK": "HK",
-      "ru-RU": "RU",
-      "pl-PL": "PL",
-      "nl-NL": "NL",
-      "sv-SE": "SE",
-      "no-NO": "NO",
-      "da-DK": "DK",
-      "fi-FI": "FI",
-      "th-TH": "TH",
-      "vi-VN": "VN",
-      "id-ID": "ID",
-      "ms-MY": "MY",
-      "hi-IN": "IN",
-      "ar-SA": "SA",
-      "ar-EG": "EG",
-      "he-IL": "IL",
-      "tr-TR": "TR",
-      "uk-UA": "UA",
-      "cs-CZ": "CZ",
-      "hu-HU": "HU",
-      "ro-RO": "RO",
-      "bg-BG": "BG",
-      "el-GR": "GR",
-      "hr-HR": "HR",
-      "sk-SK": "SK",
-      "sl-SI": "SI",
-      "et-EE": "EE",
-      "lv-LV": "LV",
-      "lt-LT": "LT",
-    };
 
-    if (localeCountryMap[locale]) {
-      return localeCountryMap[locale];
+
+    if (LOCALE_COUNTRY_MAP[locale]) {
+      return LOCALE_COUNTRY_MAP[locale];
     }
   } catch (error) {
     console.log("Erro ao detectar país via locale:", error);
@@ -312,35 +39,10 @@ function detectUserCountry() {
     }
 
     // Mapeamento básico por idioma
-    const languageCountryMap = {
-      pt: "BR",
-      en: "US",
-      fr: "FR",
-      de: "DE",
-      es: "ES",
-      it: "IT",
-      ja: "JP",
-      ko: "KR",
-      zh: "CN",
-      ru: "RU",
-      ar: "SA",
-      hi: "IN",
-      th: "TH",
-      vi: "VN",
-      id: "ID",
-      ms: "MY",
-      tr: "TR",
-      pl: "PL",
-      nl: "NL",
-      sv: "SE",
-      no: "NO",
-      da: "DK",
-      fi: "FI",
-    };
 
     const languageCode = language.split("-")[0].toLowerCase();
-    if (languageCountryMap[languageCode]) {
-      return languageCountryMap[languageCode];
+    if (LANGUAGE_COUNTRY_MAP[languageCode]) {
+      return LANGUAGE_COUNTRY_MAP[languageCode];
     }
   } catch (error) {
     console.log("Erro ao detectar país via language:", error);
@@ -357,12 +59,12 @@ function openDonation() {
 
   const donationUrl = `https://www.paypal.com/donate/?cmd=_donations&business=S34UMJ23659VY&currency_code=${currencyCode}`;
 
-  chrome.tabs.create({ url: donationUrl });
+  ext.tabs.create({ url: donationUrl });
 }
 
 async function checkTiktokLogin() {
   try {
-    const cookies = await chrome.cookies.getAll({ domain: "tiktok.com" });
+    const cookies = await ext.cookies.getAll({ domain: "tiktok.com" });
     const hasMultiSids = cookies.some((c) => c.name === "multi_sids");
     const hasLivingUserId = cookies.some((c) => c.name === "living_user_id");
     return !!(hasMultiSids || hasLivingUserId);
@@ -379,7 +81,7 @@ const I18N_KEYS_PANEL = [
 ];
 
 function applyI18n() {
-  const i18n = typeof chrome !== "undefined" && chrome.i18n ? chrome.i18n : null;
+  const i18n = ext?.i18n ?? null;
   const getMsg = (key) => (i18n ? i18n.getMessage(key) : "") || "";
 
   document.querySelectorAll("[data-i18n]").forEach((element) => {
@@ -405,12 +107,37 @@ function applyI18n() {
 }
 
 function getPanelI18n() {
-  const i18n = typeof chrome !== "undefined" && chrome.i18n ? chrome.i18n : null;
+  const i18n = ext?.i18n ?? null;
   const o = {};
   I18N_KEYS_PANEL.forEach((key) => {
     o[key] = (i18n && i18n.getMessage(key)) || key;
   });
   return o;
+}
+
+async function getStorage(key) {
+  const storage = ext?.storage?.local;
+  if (!storage) return null;
+
+  // If it returns a Promise
+  try {
+    const res = await storage.get(key);
+    return res;
+  } catch {
+    // Callback fallback (Chrome)
+    return await new Promise((resolve) => storage.get(key, resolve));
+  }
+}
+
+async function setStorage(obj) {
+  const storage = ext?.storage?.local;
+  if (!storage) return;
+
+  try {
+    await storage.set(obj);
+  } catch {
+    storage.set(obj);
+  }
 }
 
 function getConfig() {
@@ -439,14 +166,10 @@ function getConfig() {
   };
 }
 
-function getStorage() {
-  if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) return chrome.storage.local;
-  return null;
-}
-
-function loadSavedConfig() {
-  const storage = getStorage();
-  if (!storage) return;
+async function loadSavedConfig() {
+  const storage = await getStorage("trrConfig");
+  const c = storage && storage.trrConfig;
+  if (!c) return;
 
   storage.get("trrConfig", (data) => {
     const c = data && data.trrConfig;
@@ -501,12 +224,12 @@ function loadSavedConfig() {
   });
 }
 
-function saveConfig(config) {
+async function saveConfig(config) {
   const storage = getStorage();
   if (!storage) return;
 
   try {
-    storage.set({
+    await setStorage({
       trrConfig: {
         useKeywords: !!config.keywordsFilter,
         keywordsFilter: config.keywordsFilter,
@@ -627,14 +350,14 @@ document.addEventListener("DOMContentLoaded", function () {
       if (loginButton) {
         loginButton.hidden = false;
         loginButton.style.display = "block";
-        const i18n = typeof chrome !== "undefined" && chrome.i18n ? chrome.i18n : null;
+        const i18n = typeof chrome !== "undefined" && ext.i18n ? ext.i18n : null;
         loginButton.title = (i18n && i18n.getMessage("notLoggedIn")) || "Sign in to TikTok first.";
       }
     }
   });
   if (loginButton) {
     loginButton.addEventListener("click", () => {
-      chrome.tabs.create({ url: "https://www.tiktok.com/login", active: true });
+      ext.tabs.create({ url: "https://www.tiktok.com/login", active: true });
       window.close();
     });
   }
@@ -643,7 +366,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (startButton.disabled) return;
     const config = getConfig();
     saveConfig(config);
-    chrome.runtime.sendMessage({
+    ext.runtime.sendMessage({
       action: "startRemovingReposts",
       payload: { config },
     });
