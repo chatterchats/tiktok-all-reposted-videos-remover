@@ -1,52 +1,54 @@
 {
-  "name": "TikTok All Reposted Videos Remover",
-  "description": "Automatically remove reposted videos on TikTok with an in-page control panel and downloadable report.",
-  "version": "2.0.0",
-  "author": {
-    "name": "Gabriel de Rezende Gonçalves",
-    "email": "contato@gabireze.com.br",
-    "url": "https://gabireze.com.br/"
-  },
-  "homepage_url": "https://chromewebstore.google.com/detail/tiktok-all-reposted-videos-remover/amgpfdpibiacligkkkbeonfhmonkgjhg",
-  "permissions": [
-    "scripting",
-    "tabs",
-    "cookies",
-    "storage"
-  ],
-  "host_permissions": [
-    "https://*.tiktok.com/*"
-  ],
-  "content_scripts": [
-    {
-      "matches": ["https://www.tiktok.com/*"],
-      "js": ["script.js"],
-      "run_at": "document_end"
-    }
-  ],
-  "background": {
-    "service_worker": "background.js"
-  },
-  "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
-  },
-  "action": {
-    "default_icon": {
-      "16": "icon.png",
-      "48": "icon.png",
-      "128": "icon.png"
+    "name": "TikTok All Reposted Videos Remover",
+    "description": "Automatically remove reposted videos on TikTok with an in-page control panel and downloadable report.",
+    "version": "2.0.0",
+
+    "author": "Gabriel de Rezende Gonçalves (contato@gabireze.com.br)",
+    "homepage_url": "https://gabireze.com.br/",
+
+    "permissions": ["scripting", "tabs", "cookies", "storage"],
+    "host_permissions": ["https://*.tiktok.com/*"],
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "tiktok-reposted-remover@gabireze.com.br"
+        }
     },
-    "default_title": "TikTok All Reposted Video Remover",
-    "default_popup": "popup.html"
-  },
-  "web_accessible_resources": [
-    {
-      "resources": ["script.js", "styles.css"],
-      "matches": ["https://*.tiktok.com/*"]
-    }
-  ],
-  "manifest_version": 3,
-  "default_locale": "en"
+
+    "content_scripts": [
+        {
+            "matches": ["https://www.tiktok.com/*"],
+            "js": ["script.js"],
+            "run_at": "document_end"
+        }
+    ],
+    "background": {
+        "service_worker": "background.js",
+        "scripts": ["background.js"]
+    },
+    "icons": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    },
+
+    "action": {
+        "default_icon": {
+            "16": "icon.png",
+            "48": "icon.png",
+            "128": "icon.png"
+        },
+        "default_title": "TikTok All Reposted Video Remover",
+        "default_popup": "popup.html"
+    },
+
+    "web_accessible_resources": [
+        {
+            "resources": ["script.js", "styles.css"],
+            "matches": ["https://*.tiktok.com/*"]
+        }
+    ],
+
+    "manifest_version": 3,
+    "default_locale": "en"
 }
